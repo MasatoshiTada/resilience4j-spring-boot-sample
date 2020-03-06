@@ -1,10 +1,9 @@
 package com.example.helloui;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class HelloController {
 
     private final HelloService helloService;
@@ -13,23 +12,15 @@ public class HelloController {
         this.helloService = helloService;
     }
 
-    @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("message", "ボタンをどれかクリックしてください");
-        return "index";
-    }
-
     @GetMapping("/hello")
-    public String hello(Model model) {
+    public String hello() {
         String message = helloService.hello();
-        model.addAttribute("message", message);
-        return "index";
+        return message;
     }
 
     @GetMapping("/slow")
-    public String slow(Model model) {
+    public String slow() {
         String message = helloService.slow();
-        model.addAttribute("message", message);
-        return "index";
+        return message;
     }
 }
