@@ -5,6 +5,12 @@ AbstractAggregation <|-- PartialAggregation
 interface Metrics
 Metrics <|.. FixedSizeSlidingWindowMetrics
 Metrics <|.. SlidingTimeWindowMetrics
+note top of FixedSizeSlidingWindowMetrics
+  回数ベーススライディングの実体
+end note
+note top of SlidingTimeWindowMetrics
+  時間ベーススライディングの実体
+end note
 FixedSizeSlidingWindowMetrics o-- TotalAggregation
 FixedSizeSlidingWindowMetrics o-- Measurement
 SlidingTimeWindowMetrics o-- TotalAggregation
@@ -13,6 +19,9 @@ CircuitBreakerMetrics o-- Metrics
 enum Metrics.Outcome {
     SUCCESS, ERROR, SLOW_SUCCESS, SLOW_ERROR
 }
+note top of Metrics.Outcome
+  呼出結果を表すEnum
+end note
 enum CircuitBreakerMetrics.Result {
     BELOW_THRESHOLDS,
     FAILURE_RATE_ABOVE_THRESHOLDS,
@@ -20,6 +29,9 @@ enum CircuitBreakerMetrics.Result {
     ABOVE_THRESHOLDS,
     BELOW_MINIMUM_CALLS_THRESHOLD
 }
+note top of CircuitBreakerMetrics.Result
+  集計結果を表すEnum
+end note
 interface CircuitBreaker
 CircuitBreaker <|.. CircuitBreakerStateMachine
 CircuitBreakerStateMachine o-- CircuitBreakerConfig
