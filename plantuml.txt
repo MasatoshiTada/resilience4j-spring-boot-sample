@@ -1,0 +1,41 @@
+@startuml
+AbstractAggregation <|-- TotalAggregation
+AbstractAggregation <|-- Measurement
+AbstractAggregation <|-- PartialAggregation
+interface Metrics
+Metrics <|.. FixedSizeSlidingWindowMetrics
+Metrics <|.. SlidingTimeWindowMetrics
+FixedSizeSlidingWindowMetrics o-- TotalAggregation
+FixedSizeSlidingWindowMetrics o-- Measurement
+SlidingTimeWindowMetrics o-- TotalAggregation
+SlidingTimeWindowMetrics o-- PartialAggregation
+CircuitBreakerMetrics o-- Metrics
+enum Metrics.Outcome {
+    SUCCESS, ERROR, SLOW_SUCCESS, SLOW_ERROR
+}
+enum CircuitBreakerMetrics.Result {
+    BELOW_THRESHOLDS,
+    FAILURE_RATE_ABOVE_THRESHOLDS,
+    SLOW_CALL_RATE_ABOVE_THRESHOLDS,
+    ABOVE_THRESHOLDS,
+    BELOW_MINIMUM_CALLS_THRESHOLD
+}
+interface CircuitBreaker
+CircuitBreaker <|.. CircuitBreakerStateMachine
+CircuitBreakerStateMachine o-- CircuitBreakerConfig
+CircuitBreakerStateMachine o-- CircuitBreakerStateMachine.CircuitBreakerState
+note left of CircuitBreakerStateMachine
+  CircuitBreakerの実体
+end note
+interface CircuitBreakerRegistry
+AbstractRegistry <|-- InMemoryCircuitBreakerRegistry
+CircuitBreakerRegistry <|.. InMemoryCircuitBreakerRegistry
+InMemoryCircuitBreakerRegistry o-- CircuitBreakerConfig
+interface CircuitBreakerStateMachine.CircuitBreakerState
+CircuitBreakerStateMachine.CircuitBreakerState <|.. CircuitBreakerStateMachine.ClosedState
+CircuitBreakerStateMachine.CircuitBreakerState <|.. CircuitBreakerStateMachine.OpenState
+CircuitBreakerStateMachine.CircuitBreakerState <|.. CircuitBreakerStateMachine.HalfOpenState
+CircuitBreakerStateMachine.ClosedState o-- CircuitBreakerMetrics
+CircuitBreakerStateMachine.OpenState o-- CircuitBreakerMetrics
+CircuitBreakerStateMachine.HalfOpenState o-- CircuitBreakerMetrics
+@enduml

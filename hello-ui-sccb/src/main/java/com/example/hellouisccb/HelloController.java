@@ -1,4 +1,4 @@
-package com.example.helloui;
+package com.example.hellouisccb;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
