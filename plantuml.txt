@@ -6,10 +6,10 @@ interface Metrics
 Metrics <|.. FixedSizeSlidingWindowMetrics
 Metrics <|.. SlidingTimeWindowMetrics
 note top of FixedSizeSlidingWindowMetrics
-  回数ベーススライディングの実体
+  回数ベーススライディングウィンドウの実体
 end note
 note top of SlidingTimeWindowMetrics
-  時間ベーススライディングの実体
+  時間ベーススライディングウィンドウの実体
 end note
 FixedSizeSlidingWindowMetrics o-- TotalAggregation
 FixedSizeSlidingWindowMetrics o-- Measurement
